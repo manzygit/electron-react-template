@@ -10,7 +10,8 @@
     "dev:react": "npx vite",
     "dev:electron": "wait-on tcp:5123 && npx cross-env NODE_ENV=development vite --mode electron",
     "dev": "concurrently -k -r -n \"react,electron\" -c \"cyan,green\" \"npm:dev:react\" \"npm:dev:electron\"",
-    "electron": "npm run build && npx electron ."
+    "electron": "npm run build && npx electron .",
+    "react": "npm run build:react && npx vite"
   },
   "build": {
     "appId": "com.manzygit.electron-react-template",

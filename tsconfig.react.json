@@ -20,10 +20,17 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "noFallthroughCasesInSwitch": true,
-      "noUncheckedSideEffectImports": true
+      "noUncheckedSideEffectImports": true,
+
+      /* Setting Directories For Types */
+      "rootDirs": [
+        "./src/renderer",
+        "./src/shared"
+      ]
     },
     "include": [
       "./src/renderer",
+      "./src/shared",
       "./src/global.d.ts"
     ]
   }

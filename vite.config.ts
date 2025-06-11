@@ -9,7 +9,7 @@ export default defineConfig(function(env){
             build: {
                 emptyOutDir: false,
             },
-            publicDir: "./assets",
+            publicDir: "./assets/electron",
             plugins: [
                 electron({
                     main: {
@@ -38,7 +38,6 @@ export default defineConfig(function(env){
     return {
         base: "./",
         root: "./src/renderer",
-        publicDir: "../../assets",
         build: {
             outDir: "../../dist/renderer",
             emptyOutDir: true

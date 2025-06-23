@@ -8,12 +8,14 @@
     "skipLibCheck": true,
     "rootDirs": [
       "./src/main",
-      "./src/shared"
+      "./src/shared",
+      "./src/preload"
     ],
     "allowJs": true
   },
   "include": [
     "./src/main",
-    "./src/shared"
+    "./src/shared",
+    "./src/preload"
   ]
 }

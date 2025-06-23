@@ -9,7 +9,6 @@ export default defineConfig(function(env){
             build: {
                 emptyOutDir: false,
             },
-            publicDir: "./assets/electron",
             plugins: [
                 electron({
                     main: {
@@ -22,11 +21,11 @@ export default defineConfig(function(env){
                         }
                     },
                     preload: {
-                        input: path.join(__dirname, './src/main/preload.ts'),
+                        input: path.join(__dirname, './src/preload/preload.ts'),
                         vite: {
                             base: "./",
                             build: {
-                                outDir: "./dist/main"
+                                outDir: "./dist/preload"
                             }
                         }
                     },

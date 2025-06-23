@@ -1,6 +1,6 @@
-import { app, BrowserWindow, ipcMain, session } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import { isDev } from "./utils";
+import { isDev } from "./utils/utils";
 
 let mainWindow: BrowserWindow = null;
 
@@ -11,7 +11,7 @@ function createWindow(): void {
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            preload: path.resolve(__dirname, "./preload.js")
+            preload: path.resolve(__dirname, "../preload/preload.js")
         },
         autoHideMenuBar: !isDev()
     });

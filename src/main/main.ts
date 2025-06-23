@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { isDev } from "./utils/utils";
+import Responder from "./utils/Responder";
+import { CommandType } from "./Electron";
 
 let mainWindow: BrowserWindow = null;
 
@@ -26,6 +28,12 @@ function createWindow(): void {
         mainWindow = null;
         process.exit(1);
     })
+
+    const responder: Responder<CommandType> = new Responder();
+    responder.onCommand("add", function(event, ...args){
+        console.log("Add comand Triggered!");
+        event.reply(`You added something: ${args}`);
+    });
 
     ipcMain.on("buttonClicked", function (sender, msg) {
         console.log(msg);

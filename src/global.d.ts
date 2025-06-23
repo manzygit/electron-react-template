@@ -2,6 +2,6 @@ export {};
 
 declare global {
     interface Window {
-        ElectronAPI: typeof import('./main/preload').ElectronAPI;
+        electronAPI: typeof import('./preload/preload.ts').ElectronAPI;
     }
 }

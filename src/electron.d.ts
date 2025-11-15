@@ -1,7 +1,6 @@
-export interface ElectronAPI {
-    send: (channel: string, data: any) => void;
-    receive: (channel: string, func: Function) => void;
-}
+/// <reference types="vite/client" />
+
+import type { ElectronAPI } from "./shared";
 
 declare global {
     interface Window {

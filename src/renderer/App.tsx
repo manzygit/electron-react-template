@@ -1,16 +1,16 @@
-import { User } from "../shared";
+import { useEffect } from "react";
 
 export default function App() {
+    useEffect(function(){
+        window.electron.send("sayHi");
+        window.electron.once("hello", function(_, msg) {
+            console.log(msg);
+        });
+    }, []);
+
     return (
         <div className="app">
             <h1>Hello World!</h1>
-            <h1>KSskasdsajdkj</h1>
         </div>
     );
 }
-
-const user: User = {
-    firstname: "Frontend",
-    lastname: "User"
-};
-console.log(user);

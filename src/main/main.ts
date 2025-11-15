@@ -1,6 +1,5 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain, ipcRenderer } from "electron";
 import path from "path";
-import { User } from "../shared";
 
 const isDev = process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL !== undefined;
 
@@ -23,6 +22,10 @@ function createWindow() {
             app.getAppPath(), 'dist', "index.html"
         ));
     }
+
+    ipcMain.on("sayHi", function(event) {
+        event.sender.send("hello", "Hello From Electron Backend!");
+    });
 }
 
 app.whenReady().then(createWindow);
@@ -38,9 +41,3 @@ app.on("activate", function() {
         createWindow();
     }
 });
-
-const user: User = {
-    firstname: "Backend",
-    lastname: "User"
-};
-console.log(user);

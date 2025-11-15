@@ -1,52 +1,42 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import electron from 'vite-plugin-electron/simple'
+import electron from 'vite-plugin-electron';
 import path from 'path';
 
-export default defineConfig(function(env){
-    if(env.mode === "electron"){
-        return {
-            build: {
-                emptyOutDir: false,
+export default defineConfig({
+    plugins: [
+        react(),
+        electron([
+            {
+                entry: path.resolve(__dirname, "./src/main/main.ts"),
+                vite: {
+                    build: {
+                        outDir: path.resolve(__dirname, "./dist/electron"),
+                        rollupOptions: {
+                            external: ["electron"]
+                        }
+                    }
+                }
             },
-            plugins: [
-                electron({
-                    main: {
-                        entry: './src/main/main.ts',
-                        vite: {
-                            base: "./",
-                            build: {
-                                outDir: "./dist/main"
-                            }
-                        }
-                    },
-                    preload: {
-                        input: path.join(__dirname, './src/preload/preload.ts'),
-                        vite: {
-                            base: "./",
-                            build: {
-                                outDir: "./dist/preload"
-                            }
-                        }
-                    },
-                    renderer: {},
-                }),
-            ]
-        }
+            {
+                entry: path.resolve(__dirname, "./src/main/preload.ts"),
+                vite: {
+                    build: {
+                        outDir: path.resolve(__dirname, "./dist/electron")
+                    }
+                },
+                onstart: function(args) {
+                    args.reload();
+                }
+            }
+        ])
+    ],
+    base: './',
+    build: {
+        outDir: 'dist',
+        emptyOutDir: true
+    },
+    server: {
+        port: 5173
     }
-    return {
-        base: "./",
-        root: "./src/renderer",
-        build: {
-            outDir: "../../dist/renderer",
-            emptyOutDir: true
-        },
-        plugins: [
-            react()
-        ],
-        server: {
-            port: 5123,
-            strictPort: true
-        }
-    }
-})
+});

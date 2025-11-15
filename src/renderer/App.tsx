@@ -1,18 +1,16 @@
-import { ReactElement } from "react";
-import './App.scss';
-import { CommandType } from "./Electron";
+import { User } from "../shared";
 
-window.electronAPI.invoke<CommandType>({
-    command: "add",
-    args: ["sladkslakdlaskd", "lsakdlskad"]
-}, function(data: string){
-    console.log(data);
-});
-
-export default function App(): ReactElement {
+export default function App() {
     return (
         <div className="app">
-            <h1>Vite + React + Typescript</h1>
+            <h1>Hello World!</h1>
+            <h1>KSskasdsajdkj</h1>
         </div>
     );
 }
+
+const user: User = {
+    firstname: "Frontend",
+    lastname: "User"
+};
+console.log(user);

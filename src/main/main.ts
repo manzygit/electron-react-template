@@ -1,57 +1,46 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow } from "electron";
 import path from "path";
-import { isDev } from "./utils/utils";
-import Responder from "./utils/Responder";
-import { CommandType } from "./Electron";
+import { User } from "../shared";
 
-let mainWindow: BrowserWindow = null;
+const isDev = process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL !== undefined;
 
-function createWindow(): void {
-    mainWindow = new BrowserWindow({
+function createWindow() {
+    const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: false,
+            preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
-            preload: path.resolve(__dirname, "../preload/preload.js")
-        },
-        autoHideMenuBar: !isDev()
+            nodeIntegration: false
+        }
     });
-    if (isDev()) {
-        mainWindow.webContents.openDevTools();
-        mainWindow.loadURL("http://localhost:5123");
+    if(isDev){
+        win.loadURL('http://localhost:5173');
+        win.webContents.openDevTools();
+        process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
     } else {
-        mainWindow.loadFile(path.resolve(__dirname, "../renderer/index.html"));
-        mainWindow.setMenu(null);
+        win.loadFile(path.resolve(
+            app.getAppPath(), 'dist', "index.html"
+        ));
     }
-    mainWindow.on("close", function () {
-        mainWindow = null;
-        process.exit(1);
-    })
-
-    const responder: Responder<CommandType> = new Responder();
-    responder.onCommand("add", function(event, ...args){
-        console.log("Add comand Triggered!");
-        event.reply(`You added something: ${args}`);
-    });
-
-    ipcMain.on("buttonClicked", function (sender, msg) {
-        console.log(msg);
-    })
 }
 
-app.on("ready", function () {
-    createWindow();
-});
+app.whenReady().then(createWindow);
 
-app.on("window-all-closed", function () {
-    if (process.platform === "darwin") {
+app.on("window-all-closed", function() {
+    if(process.platform !== 'darwin'){
         app.quit();
     }
 });
 
-app.on("activate", function () {
-    if (mainWindow === null) {
+app.on("activate", function() {
+    if(BrowserWindow.getAllWindows().length === 0){
         createWindow();
     }
 });
+
+const user: User = {
+    firstname: "Backend",
+    lastname: "User"
+};
+console.log(user);
